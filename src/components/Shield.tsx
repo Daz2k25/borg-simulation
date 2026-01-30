@@ -1,24 +1,19 @@
 import * as THREE from 'three';
-import { extend, ReactThreeFiber } from '@react-three/fiber';
+import { extend } from '@react-three/fiber';
 import { shaderMaterial } from '@react-three/drei';
 
 // Uniforms for the shield
-type ShieldUniforms = {
-    uTime: number;
-    uColor: THREE.Color;
-    uRimColor: THREE.Color;
-    uHits: THREE.Vector4[]; // xyz = position, w = time of impact
-};
+// Shield Uniforms type definition removed as it is currently unused in the simplified intrinsic elements interface
 
 const ShieldShaderMaterial = shaderMaterial(
-    {
-        uTime: 0,
-        uColor: new THREE.Color('#00ff00'),
-        uRimColor: new THREE.Color('#ffffff'),
-        uHits: Array(5).fill(new THREE.Vector4(0, 0, 0, -100)), // Initialize off-screen/old
-    },
-    // Vertex Shader
-    `
+  {
+    uTime: 0,
+    uColor: new THREE.Color('#00ff00'),
+    uRimColor: new THREE.Color('#ffffff'),
+    uHits: Array(5).fill(new THREE.Vector4(0, 0, 0, -100)), // Initialize off-screen/old
+  },
+  // Vertex Shader
+  `
     varying vec3 vNormal;
     varying vec3 vPosition;
     varying vec2 vUv;
@@ -30,8 +25,8 @@ const ShieldShaderMaterial = shaderMaterial(
       gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
     }
   `,
-    // Fragment Shader
-    `
+  // Fragment Shader
+  `
     uniform float uTime;
     uniform vec3 uColor;
     uniform vec3 uRimColor;
@@ -91,11 +86,11 @@ extend({ ShieldShaderMaterial });
 
 // Add type definition for JSX
 declare global {
-    namespace JSX {
-        interface IntrinsicElements {
-            shieldShaderMaterial: ReactThreeFiber.Object3DNode<THREE.ShaderMaterial, typeof ShieldShaderMaterial> & ShieldUniforms;
-        }
+  namespace JSX {
+    interface IntrinsicElements {
+      shieldShaderMaterial: any;
     }
+  }
 }
 
 export { ShieldShaderMaterial };

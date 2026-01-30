@@ -2,7 +2,7 @@ import { useMemo, useRef } from 'react';
 import * as THREE from 'three';
 import { useFrame } from '@react-three/fiber';
 import { generateBorgTexture } from '../utils/generateBorgTexture';
-import { ShieldShaderMaterial } from './Shield';
+import './Shield';
 
 export const BorgCube = ({ shieldHits }: { shieldHits: THREE.Vector4[] }) => {
     const meshRef = useRef<THREE.Mesh>(null);

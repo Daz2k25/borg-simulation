@@ -8,7 +8,7 @@ import { PlayerShip } from './PlayerShip';
 
 // Raycaster component to handle shooting
 const Shooter = ({ onHit }: { onHit: (point: THREE.Vector3) => void }) => {
-    const { camera, scene, raycaster, pointer } = useThree();
+    const { camera, scene, raycaster } = useThree();
 
     const handleClick = useCallback(() => {
         // Raycast from camera using mouse/center

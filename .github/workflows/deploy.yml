@@ -1,0 +1,39 @@
+name: Deploy Borg Simulation
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Dependencies
+        run: npm ci
+
+      - name: Build
+        run: npm run build
+
+      - name: Setup SSH
+        run: |
+          mkdir -p ~/.ssh/
+          echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
+          chmod 600 ~/.ssh/id_rsa
+          ssh-keyscan -H ${{ secrets.HOST }} >> ~/.ssh/known_hosts
+
+      - name: Deploy to Server
+        run: |
+          # Create directory if it doesn't exist
+          ssh ${{ secrets.USERNAME }}@${{ secrets.HOST }} "mkdir -p ~/borg-simulation"
+          # Sync build folder
+          rsync -avz --delete ./dist/ ${{ secrets.USERNAME }}@${{ secrets.HOST }}:~/borg-simulation

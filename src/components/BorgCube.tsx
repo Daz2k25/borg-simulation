@@ -45,7 +45,7 @@ export const BorgCube = ({ shieldHits }: { shieldHits: THREE.Vector4[] }) => {
 
             {/* The Shield (Slightly larger) */}
             <mesh>
-                <sphereGeometry args={[2.5, 32, 32]} /> {/* Sphere for bubble shield look */}
+                <boxGeometry args={[3.2, 3.2, 3.2]} /> {/* Cubic "surface" shield */}
                 {/* @ts-ignore */}
                 <shieldShaderMaterial
                     ref={shieldRef}
